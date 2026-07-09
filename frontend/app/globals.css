@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: #050a0f;
+}
+
+/* Scrollbar fine cohérente avec le thème ICU */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a1520;
+}
+::-webkit-scrollbar-thumb {
+  background: #1a4060;
+  border-radius: 3px;
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+.animate-pulse-glow {
+  animation: pulse-glow 1.4s ease-in-out infinite;
+}

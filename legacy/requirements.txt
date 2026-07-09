@@ -1,0 +1,16 @@
+# Système de Monitoring ICU Intelligent par IA - Dépendances
+# Installer avec : pip install -r requirements.txt
+
+PyQt5==5.15.10
+pyqtgraph==0.13.3
+numpy==1.26.4
+reportlab==4.1.0
+
+# Non utilisés pour l'instant par le code actuel, mais prévus pour une
+# future intégration de vrais datasets ICU (PhysioNet / MIMIC-IV / MIT-BIH)
+# et de modèles ML réels. Décommenter si besoin :
+# scipy==1.12.0
+# pandas==2.2.1
+# matplotlib==3.8.3
+# scikit-learn==1.4.2
+# wfdb==4.1.2
