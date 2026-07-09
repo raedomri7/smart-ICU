@@ -1,0 +1,45 @@
+# render.yaml — déploiement ICU Smart Monitoring (frontend + backend)
+# 1) Connecte ce dépôt GitHub à Render (https://render.com -> New -> Blueprint)
+# 2) Render crée les 2 services ci-dessous et donne 2 URLs .onrender.com
+# 3) Renseigne les variables d'environnement après création (voir blocs envVars)
+
+services:
+  # --- Backend FastAPI (WebSocket temps réel) ---
+  - type: web
+    name: smart-icu-backend
+    runtime: python
+    plan: free
+    region: frankfurt
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12"
+      # À renseigner APRÈS déploiement avec l'URL du frontend :
+      # ex. https://smart-icu-frontend.onrender.com
+      - key: CORS_ORIGINS
+        value: https://smart-icu-frontend.onrender.com
+      - key: TICK_INTERVAL_S
+        value: "1.0"
+
+  # --- Frontend Next.js (dashboard) ---
+  - type: web
+    name: smart-icu-frontend
+    runtime: node
+    plan: free
+    region: frankfurt
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      # À renseigner APRÈS déploiement avec l'URL du backend (wss://...) :
+      # ex. https://smart-icu-backend.onrender.com/api
+      - key: NEXT_PUBLIC_API_URL
+        value: https://smart-icu-backend.onrender.com/api
+      # ex. wss://smart-icu-backend.onrender.com/ws
+      - key: NEXT_PUBLIC_WS_URL
+        value: wss://smart-icu-backend.onrender.com/ws
